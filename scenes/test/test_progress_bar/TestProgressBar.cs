@@ -2,11 +2,11 @@ using Game.Component;
 using Godot;
 
 public partial class TestProgressBar : ProgressBar {
-	[Export] private HealthComponent healthComponent;
+	[Export] private HealthComponent _healthComponent;
 
 	public override void _Ready() {
-        healthComponent.HealthChanged += OnHealthChanged;
-		OnHealthChanged(healthComponent.CurrentHealth);
+        _healthComponent.HealthChanged += OnHealthChanged;
+		OnHealthChanged(_healthComponent.CurrentHealth);
     }
 
 	private void OnHealthChanged(int newHealth) {

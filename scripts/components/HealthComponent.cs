@@ -7,31 +7,31 @@ namespace Game.Component {
         [Signal] public delegate void DiedEventHandler();
 
         [Export] public int MaxHealth {
-            get => maxHealth;
+            get => _maxHealth;
             private set {
-                maxHealth = value;
-                if (CurrentHealth > maxHealth) {
-                    CurrentHealth = maxHealth;
+                _maxHealth = value;
+                if (CurrentHealth > _maxHealth) {
+                    CurrentHealth = _maxHealth;
                 }
             }
         }
         [Export] public int CurrentHealth {
-            get => currentHealth;
+            get => _currentHealth;
             private set {
-                currentHealth = Math.Clamp(value, 0, MaxHealth);
-                EmitSignal(SignalName.HealthChanged, currentHealth);
+                _currentHealth = Math.Clamp(value, 0, MaxHealth);
+                EmitSignal(SignalName.HealthChanged, _currentHealth);
 
-                if (currentHealth == 0) {
+                if (_currentHealth == 0) {
                     EmitSignal(SignalName.Died);
                 }
             }
         }
 
         // backing fields
-        private int maxHealth = 10;
-        private int currentHealth = 10;
+        private int _maxHealth = 10;
+        private int _currentHealth = 10;
 
-        public void damage(int amount) {
+        public void Damage(int amount) {
             CurrentHealth -= amount;
         }
     }

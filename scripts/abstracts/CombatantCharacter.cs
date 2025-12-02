@@ -74,7 +74,7 @@ namespace Game.Abstracts {
         /// </summary>
         public virtual void TakeDamage(int amount) {
             if (healthComponent != null) {
-                healthComponent.damage(amount);
+                healthComponent.Damage(amount);
             }
         }
 
