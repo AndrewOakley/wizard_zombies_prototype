@@ -27,14 +27,14 @@ shape = SubResource("RectangleShape2D_oj0np")
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_86s1n")]
 
-[node name="HurtBoxComponent" parent="." node_paths=PackedStringArray("healthComponent") instance=ExtResource("4_ccau4")]
+[node name="HurtBoxComponent" parent="." node_paths=PackedStringArray("_healthComponent") instance=ExtResource("4_ccau4")]
 collision_layer = 4
 collision_mask = 8
-healthComponent = NodePath("../HealthComponent")
+_healthComponent = NodePath("../HealthComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxComponent"]
 position = Vector2(-2, 0.5)
 shape = SubResource("RectangleShape2D_ccau4")
 
-[node name="TestProgressBar" parent="." node_paths=PackedStringArray("healthComponent") instance=ExtResource("5_etdoi")]
-healthComponent = NodePath("../HealthComponent")
+[node name="TestProgressBar" parent="." node_paths=PackedStringArray("_healthComponent") instance=ExtResource("5_etdoi")]
+_healthComponent = NodePath("../HealthComponent")

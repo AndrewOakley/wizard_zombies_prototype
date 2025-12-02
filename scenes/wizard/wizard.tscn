@@ -28,8 +28,8 @@ texture = ExtResource("2_l5jqd")
 position = Vector2(-6, 7)
 shape = SubResource("RectangleShape2D_i2aia")
 
-[node name="TestProgressBar" parent="." node_paths=PackedStringArray("healthComponent") instance=ExtResource("4_i2aia")]
-healthComponent = NodePath("../HealthComponent")
+[node name="TestProgressBar" parent="." node_paths=PackedStringArray("_healthComponent") instance=ExtResource("4_i2aia")]
+_healthComponent = NodePath("../HealthComponent")
 
 [node name="Wand" type="Polygon2D" parent="."]
 color = Color(0.6181133, 0.44422364, 0.20175886, 1)
@@ -41,10 +41,10 @@ position = Vector2(56, -25)
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_hu2v1")]
 
-[node name="HurtBoxComponent" parent="." node_paths=PackedStringArray("healthComponent") instance=ExtResource("6_i2aia")]
+[node name="HurtBoxComponent" parent="." node_paths=PackedStringArray("_healthComponent") instance=ExtResource("6_i2aia")]
 collision_layer = 2
 collision_mask = 20
-healthComponent = NodePath("../HealthComponent")
+_healthComponent = NodePath("../HealthComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxComponent"]
 position = Vector2(-6.5, 10.5)
