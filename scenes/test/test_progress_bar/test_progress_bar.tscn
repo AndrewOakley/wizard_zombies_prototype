@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://wwibkqlore3p"]
+
+[ext_resource type="Script" uid="uid://bxu3g3eqakip0" path="res://scenes/test/test_progress_bar/TestProgressBar.cs" id="1_5vs0g"]
+
+[node name="TestProgressBar" type="ProgressBar" node_paths=PackedStringArray("healthComponent")]
+offset_left = -75.0
+offset_top = -68.0
+offset_right = 77.0
+offset_bottom = -41.0
+max_value = 10.0
+step = 1.0
+value = 5.0
+script = ExtResource("1_5vs0g")
+healthComponent = NodePath("")

@@ -1,3 +1,51 @@
-[gd_scene format=3 uid="uid://dr8fvj5gy5irs"]
+[gd_scene load_steps=9 format=3 uid="uid://dr8fvj5gy5irs"]
 
-[node name="Wizard" type="Node2D"]
+[ext_resource type="Script" uid="uid://0rnmxxc277jm" path="res://scenes/wizard/Wizard.cs" id="1_tsg4p"]
+[ext_resource type="PackedScene" uid="uid://daghlfm2eo2pa" path="res://scenes/projectiles/test_projectiles/test_projectile.tscn" id="2_61wsk"]
+[ext_resource type="Texture2D" uid="uid://cdj0n1mh6scpf" path="res://assets/sprites/wizard.png" id="2_l5jqd"]
+[ext_resource type="PackedScene" uid="uid://b5v1pdp1doymn" path="res://scripts/components/health_component.tscn" id="3_hu2v1"]
+[ext_resource type="PackedScene" uid="uid://wwibkqlore3p" path="res://scenes/test/test_progress_bar/test_progress_bar.tscn" id="4_i2aia"]
+[ext_resource type="PackedScene" uid="uid://58ntqbn7roq0" path="res://scripts/components/hurt_box_component.tscn" id="6_i2aia"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i2aia"]
+size = Vector2(43, 59)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_33qeg"]
+size = Vector2(33, 41)
+
+[node name="Wizard" type="CharacterBody2D" node_paths=PackedStringArray("healthComponent") groups=["Player"]]
+collision_layer = 2
+script = ExtResource("1_tsg4p")
+Projectile = ExtResource("2_61wsk")
+healthComponent = NodePath("HealthComponent")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -3.0000038)
+scale = Vector2(0.45767197, 0.45767197)
+texture = ExtResource("2_l5jqd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-6, 7)
+shape = SubResource("RectangleShape2D_i2aia")
+
+[node name="TestProgressBar" parent="." node_paths=PackedStringArray("healthComponent") instance=ExtResource("4_i2aia")]
+healthComponent = NodePath("../HealthComponent")
+
+[node name="Wand" type="Polygon2D" parent="."]
+color = Color(0.6181133, 0.44422364, 0.20175886, 1)
+polygon = PackedVector2Array(51, 10, 50, -5, 52, -9, 51, -17, 52, -25, 56, -23, 55, -17, 55, -9, 53, -2, 53, 7)
+
+[node name="ProjectileSrc" type="Marker2D" parent="Wand"]
+unique_name_in_owner = true
+position = Vector2(56, -25)
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_hu2v1")]
+
+[node name="HurtBoxComponent" parent="." node_paths=PackedStringArray("healthComponent") instance=ExtResource("6_i2aia")]
+collision_layer = 2
+collision_mask = 20
+healthComponent = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxComponent"]
+position = Vector2(-6.5, 10.5)
+shape = SubResource("RectangleShape2D_33qeg")

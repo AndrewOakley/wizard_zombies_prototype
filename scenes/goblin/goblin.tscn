@@ -1,0 +1,40 @@
+[gd_scene load_steps=8 format=3 uid="uid://dab2rdcww73ef"]
+
+[ext_resource type="Texture2D" uid="uid://bvabmvcnew5r" path="res://assets/sprites/goblin.png" id="1_g6qpl"]
+[ext_resource type="Script" uid="uid://cuut6vs2r8tdp" path="res://scenes/goblin/Goblin.cs" id="1_oj0np"]
+[ext_resource type="PackedScene" uid="uid://b5v1pdp1doymn" path="res://scripts/components/health_component.tscn" id="3_86s1n"]
+[ext_resource type="PackedScene" uid="uid://58ntqbn7roq0" path="res://scripts/components/hurt_box_component.tscn" id="4_ccau4"]
+[ext_resource type="PackedScene" uid="uid://wwibkqlore3p" path="res://scenes/test/test_progress_bar/test_progress_bar.tscn" id="5_etdoi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oj0np"]
+size = Vector2(83, 78)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ccau4"]
+size = Vector2(80, 79)
+
+[node name="Goblin" type="CharacterBody2D"]
+collision_layer = 4
+script = ExtResource("1_oj0np")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1.9999924, -0.99998474)
+scale = Vector2(0.4026549, 0.40265486)
+texture = ExtResource("1_g6qpl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2.5, 1)
+shape = SubResource("RectangleShape2D_oj0np")
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_86s1n")]
+
+[node name="HurtBoxComponent" parent="." node_paths=PackedStringArray("healthComponent") instance=ExtResource("4_ccau4")]
+collision_layer = 4
+collision_mask = 8
+healthComponent = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxComponent"]
+position = Vector2(-2, 0.5)
+shape = SubResource("RectangleShape2D_ccau4")
+
+[node name="TestProgressBar" parent="." node_paths=PackedStringArray("healthComponent") instance=ExtResource("5_etdoi")]
+healthComponent = NodePath("../HealthComponent")
