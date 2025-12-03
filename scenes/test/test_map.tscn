@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://by1aaq7500u0y"]
+[gd_scene load_steps=3 format=3 uid="uid://by1aaq7500u0y"]
 
 [ext_resource type="PackedScene" uid="uid://dr8fvj5gy5irs" path="res://scenes/wizard/wizard.tscn" id="1_2t2t3"]
-[ext_resource type="PackedScene" uid="uid://daghlfm2eo2pa" path="res://scenes/projectiles/test_projectiles/test_projectile.tscn" id="2_4ix5f"]
 [ext_resource type="PackedScene" uid="uid://dab2rdcww73ef" path="res://scenes/goblin/goblin.tscn" id="3_8ba03"]
 
 [node name="TestMap" type="Node2D"]
@@ -10,7 +9,6 @@
 
 [node name="Wizard" parent="Players" instance=ExtResource("1_2t2t3")]
 position = Vector2(142, 159)
-Projectile = ExtResource("2_4ix5f")
 
 [node name="Node" type="Node" parent="Players"]
 
@@ -18,3 +16,12 @@ Projectile = ExtResource("2_4ix5f")
 
 [node name="Goblin" parent="Enemies" instance=ExtResource("3_8ba03")]
 position = Vector2(928, 186)
+
+[node name="Goblin2" parent="Enemies" instance=ExtResource("3_8ba03")]
+position = Vector2(834, 585)
+
+[node name="Goblin3" parent="Enemies" instance=ExtResource("3_8ba03")]
+position = Vector2(931, 463)
+
+[node name="Goblin4" parent="Enemies" instance=ExtResource("3_8ba03")]
+position = Vector2(921, 313)

@@ -1,18 +1,18 @@
 using Godot;
 
-namespace Game.Component {
-    public partial class HurtBoxComponent : Area2D {
-        [Export]
-        private HealthComponent _healthComponent;
+namespace Game.Component;
 
-        public const string EnemyHurtboxGroup = "enemy_hurt_box_group";
+public partial class HurtBoxComponent : Area2D {
+    [Export]
+    private HealthComponent _healthComponent;
 
-        public override void _Ready() {
-            AreaEntered += OnAreaEntered;
-        }
+    public const string EnemyHurtboxGroup = "enemy_hurt_box_group";
 
-        private void OnAreaEntered(Area2D area) {
-            _healthComponent.Damage(1);
-        }
+    public override void _Ready() {
+        AreaEntered += OnAreaEntered;
+    }
+
+    private void OnAreaEntered(Area2D area) {
+        _healthComponent.Damage(1);
     }
 }
