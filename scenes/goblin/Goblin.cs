@@ -9,7 +9,7 @@ public partial class Goblin : CombatantCharacter {
 		base._Ready();
 
 		var nodes = GetTree().GetNodesInGroup("Player");
-		_wizards = new Godot.Collections.Array<Wizard>();
+		_wizards = [];
 		foreach (var node in nodes) {
 			if (node is Wizard wizard) {
 				_wizards.Add(wizard);

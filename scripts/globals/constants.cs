@@ -1,5 +1,7 @@
 using System;
 
+namespace Game.Contstants;
+
 public static class Constants {
     [Flags]
     public enum CollisionLayer {

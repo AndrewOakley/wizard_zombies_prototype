@@ -7,14 +7,16 @@
 [ext_resource type="PackedScene" uid="uid://wwibkqlore3p" path="res://scenes/test/test_progress_bar/test_progress_bar.tscn" id="5_etdoi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oj0np"]
-size = Vector2(83, 78)
+size = Vector2(44, 76.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ccau4"]
-size = Vector2(80, 79)
+size = Vector2(48, 80.5)
 
 [node name="Goblin" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 5
+platform_on_leave = 2
+platform_floor_layers = 4294967040
 script = ExtResource("1_oj0np")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -23,7 +25,7 @@ scale = Vector2(0.4026549, 0.40265486)
 texture = ExtResource("1_g6qpl")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-2.5, 1)
+position = Vector2(-2, -0.75)
 shape = SubResource("RectangleShape2D_oj0np")
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_86s1n")]
@@ -34,7 +36,7 @@ collision_mask = 8
 _healthComponent = NodePath("../HealthComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxComponent"]
-position = Vector2(-2, 0.5)
+position = Vector2(-2, -0.75)
 shape = SubResource("RectangleShape2D_ccau4")
 
 [node name="TestProgressBar" parent="." node_paths=PackedStringArray("_healthComponent") instance=ExtResource("5_etdoi")]

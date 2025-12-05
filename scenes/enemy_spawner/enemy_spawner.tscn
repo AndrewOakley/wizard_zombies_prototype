@@ -1,0 +1,56 @@
+[gd_scene load_steps=6 format=3 uid="uid://d33fmma3wj2qe"]
+
+[ext_resource type="Script" uid="uid://br3hgbnlud1ej" path="res://scenes/enemy_spawner/EnemySpawner.cs" id="1_85wi1"]
+[ext_resource type="PackedScene" uid="uid://dab2rdcww73ef" path="res://scenes/goblin/goblin.tscn" id="2_gppuq"]
+
+[sub_resource type="Animation" id="Animation_gppuq"]
+resource_name = "spawning"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Polygon2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.25, 1.25), Vector2(1, 1), Vector2(1.25, 1.25), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_hibn7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Polygon2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_33mpf"]
+_data = {
+&"RESET": SubResource("Animation_hibn7"),
+&"spawning": SubResource("Animation_gppuq")
+}
+
+[node name="EnemySpawner" type="Node2D"]
+script = ExtResource("1_85wi1")
+_enemyCharacterScene = ExtResource("2_gppuq")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0.8467183, 0, 0, 1)
+polygon = PackedVector2Array(-1, -54, -21, -27, -21, 18, -1, 35, 21, 18, 20, -31)
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+position = Vector2(0, 34)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_33mpf")
+}

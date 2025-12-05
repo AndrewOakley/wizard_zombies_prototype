@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://by1aaq7500u0y"]
+[gd_scene load_steps=5 format=3 uid="uid://by1aaq7500u0y"]
 
 [ext_resource type="PackedScene" uid="uid://dr8fvj5gy5irs" path="res://scenes/wizard/wizard.tscn" id="1_2t2t3"]
-[ext_resource type="PackedScene" uid="uid://dab2rdcww73ef" path="res://scenes/goblin/goblin.tscn" id="3_8ba03"]
+[ext_resource type="PackedScene" uid="uid://d33fmma3wj2qe" path="res://scenes/enemy_spawner/enemy_spawner.tscn" id="2_4ix5f"]
+[ext_resource type="Script" uid="uid://b1l5f886uwmcy" path="res://scenes/enemy_spawner/EnemiesSpawnerManager.cs" id="2_8ba03"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4ix5f"]
+size = Vector2(139, 1161)
 
 [node name="TestMap" type="Node2D"]
 
@@ -12,16 +16,73 @@ position = Vector2(142, 159)
 
 [node name="Node" type="Node" parent="Players"]
 
-[node name="Enemies" type="Node" parent="."]
+[node name="EnemiesSpawnerManager" type="Node" parent="."]
+script = ExtResource("2_8ba03")
 
-[node name="Goblin" parent="Enemies" instance=ExtResource("3_8ba03")]
-position = Vector2(928, 186)
+[node name="EnemySpawner" parent="EnemiesSpawnerManager" instance=ExtResource("2_4ix5f")]
+position = Vector2(-355, -80)
 
-[node name="Goblin2" parent="Enemies" instance=ExtResource("3_8ba03")]
-position = Vector2(834, 585)
+[node name="EnemySpawner2" parent="EnemiesSpawnerManager" instance=ExtResource("2_4ix5f")]
+position = Vector2(-348, 414)
 
-[node name="Goblin3" parent="Enemies" instance=ExtResource("3_8ba03")]
-position = Vector2(931, 463)
+[node name="EnemySpawner3" parent="EnemiesSpawnerManager" instance=ExtResource("2_4ix5f")]
+position = Vector2(653, 410)
 
-[node name="Goblin4" parent="Enemies" instance=ExtResource("3_8ba03")]
-position = Vector2(921, 313)
+[node name="EnemySpawner4" parent="EnemiesSpawnerManager" instance=ExtResource("2_4ix5f")]
+position = Vector2(643, -77)
+
+[node name="Node" type="Node" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Node"]
+position = Vector2(-225, 39)
+collision_mask = 0
+
+[node name="Polygon2D" type="Polygon2D" parent="Node/StaticBody2D"]
+position = Vector2(7.2567444, -150.84787)
+scale = Vector2(1.0202702, 1.336714)
+polygon = PackedVector2Array(-354, 2, -352, 145, -358, 447, -210, 448, -212, -42, -346, -45)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node/StaticBody2D"]
+position = Vector2(-279.5, 120)
+shape = SubResource("RectangleShape2D_4ix5f")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Node"]
+position = Vector2(1068, 38)
+collision_mask = 0
+
+[node name="Polygon2D" type="Polygon2D" parent="Node/StaticBody2D2"]
+position = Vector2(7.2567444, -150.84787)
+scale = Vector2(1.0202702, 1.336714)
+polygon = PackedVector2Array(-354, 2, -352, 145, -354.07947, 446.50375, -210, 448, -212, -42, -346, -45)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node/StaticBody2D2"]
+position = Vector2(-279.5, 120)
+shape = SubResource("RectangleShape2D_4ix5f")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="Node"]
+position = Vector2(5, 47)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="Polygon2D" type="Polygon2D" parent="Node/StaticBody2D3"]
+position = Vector2(7.2567444, -150.84787)
+scale = Vector2(1.0202702, 1.336714)
+polygon = PackedVector2Array(-354, 2, -352, 145, -354.07947, 446.50375, -210, 448, -211.9603, -422.044, -351.1391, -422.044)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node/StaticBody2D3"]
+position = Vector2(-279.5, -134.5)
+shape = SubResource("RectangleShape2D_4ix5f")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="Node"]
+position = Vector2(5, 832)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="Polygon2D" type="Polygon2D" parent="Node/StaticBody2D4"]
+position = Vector2(7.2567444, -150.84787)
+scale = Vector2(1.0202702, 1.336714)
+polygon = PackedVector2Array(-354, 2, -352, 145, -354.07947, 446.50375, -210, 448, -211.9603, -422.044, -351.1391, -422.044)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node/StaticBody2D4"]
+position = Vector2(-279.5, -134.5)
+shape = SubResource("RectangleShape2D_4ix5f")
