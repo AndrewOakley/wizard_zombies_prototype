@@ -1,34 +1,28 @@
 using Game.Abstracts;
+using Game.Component;
 using Godot;
 using Constants = Game.Contstants.Constants;
 
 public partial class Wizard : CombatantCharacter {
-    [Signal] public delegate void GoldChangedEventHandler(int newGoldAmount);
+    [ExportGroup("Components")]
+    [Export] public CurrencyComponent CurrencyComponent;
     
+    [ExportGroup("Stats")]
     [Export] public float Speed = 200.0f;
     [Export] public float SprintSpeed = 350.0f;
-    [Export] public PackedScene Projectile;
     [Export] public float RollDistance { get; set; } = 300f;
     [Export] public float RollDuration { get; set; } = 0.4f;
+    [Export] private PackedScene _projectileScene; // Temp: this will be in the specific spell eventually
     
     private Sprite2D _sprite2D;
     private Marker2D _projectileSrc;
     private Polygon2D _wand;
-
-    public int Gold {
-        get => _gold;
-        set {
-            _gold = value;
-            EmitSignal(SignalName.GoldChanged, _gold);
-        }
-    }
 
     private bool _isDodging = false;
     private uint _savedCollisionLayer;
     private uint _savedCollisionMask;
     private Vector2 _dodgeVelocity;
     private float _dodgeTimer;
-    private int _gold;
 
     public override void _Ready() {
         base._Ready();
@@ -83,7 +77,7 @@ public partial class Wizard : CombatantCharacter {
         if (!Input.IsActionJustPressed("move_fire") || Input.IsActionPressed("move_sprint"))
             return;
 
-        var projectile = Projectile.Instantiate<Projectile>();
+        var projectile = _projectileScene.Instantiate<Projectile>();
         projectile.Initialize(_projectileSrc.GlobalPosition, _wand.Rotation, this);
         projectile.HitArea += OnProjectileHit;
         GetTree().Root.AddChild(projectile);
@@ -92,9 +86,9 @@ public partial class Wizard : CombatantCharacter {
     private void OnProjectileHit(Area2D area2D) {
         var isEnemy = (area2D.CollisionLayer & (uint)Constants.CollisionLayer.Enemy) != 0;
         if (isEnemy) {
-            Gold += 10;
+            CurrencyComponent.Gold += 10;
         }
-    } 
+    }
     
     private void DodgeRoll(Vector2 direction) {
         var norm = direction.Normalized();

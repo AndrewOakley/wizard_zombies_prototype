@@ -7,15 +7,15 @@ public abstract partial class Projectile : CharacterBody2D {
     
     [Export] public int Damage { get; set; } = 1;
 	[Export] public float Speed = 300.0f;
-    [Export] public CombatantCharacter Shooter { get; set; }
+    [Export] public CombatantCharacter Sender { get; set; }
     
 	private protected Area2D Area;	
 	private Vector2 _direction;
 
-	public void Initialize(Vector2 position, float rotation, CombatantCharacter shooter) {
+	public void Initialize(Vector2 position, float rotation, CombatantCharacter sender) {
 		GlobalPosition = position;
 		Rotation = rotation;
-		Shooter = shooter;
+		Sender = sender;
 	}
 
     public override void _Ready() {

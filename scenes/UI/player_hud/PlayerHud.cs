@@ -7,9 +7,9 @@ public partial class PlayerHud : Control {
 	
 	public override void _Ready() {
 		_goldLabel = GetNode<Label>("GoldLabel");
-		_goldLabel.Text = $"Gold: {_player.Gold}";
+		_goldLabel.Text = $"Gold: {_player.CurrencyComponent.Gold}";
 		
-		_player.GoldChanged += OnGoldChanged;
+		_player.CurrencyComponent.GoldChanged += OnGoldChanged;
 	}
 	
 	private void OnGoldChanged(int newGoldAmount) {
