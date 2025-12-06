@@ -10,7 +10,6 @@ public partial class TestProgressBar : ProgressBar {
     }
 
 	private void OnHealthChanged(int newHealth) {
-        GD.Print($"Health changed: {newHealth}");
 		Value = newHealth;
     }
 }

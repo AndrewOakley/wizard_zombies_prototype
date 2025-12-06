@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dr8fvj5gy5irs"]
+[gd_scene load_steps=10 format=3 uid="uid://dr8fvj5gy5irs"]
 
 [ext_resource type="Script" uid="uid://0rnmxxc277jm" path="res://scenes/wizard/Wizard.cs" id="1_tsg4p"]
 [ext_resource type="PackedScene" uid="uid://daghlfm2eo2pa" path="res://scenes/projectiles/test_projectiles/test_projectile.tscn" id="2_61wsk"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b5v1pdp1doymn" path="res://scripts/components/health_component.tscn" id="3_hu2v1"]
 [ext_resource type="PackedScene" uid="uid://wwibkqlore3p" path="res://scenes/test/test_progress_bar/test_progress_bar.tscn" id="4_i2aia"]
 [ext_resource type="PackedScene" uid="uid://58ntqbn7roq0" path="res://scripts/components/hurt_box_component.tscn" id="6_i2aia"]
+[ext_resource type="Script" uid="uid://ct3tk4nupra7f" path="res://scenes/UI/player_hud/PlayerHud.cs" id="7_33qeg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i2aia"]
 size = Vector2(36.5, 48.5)
@@ -13,12 +14,14 @@ size = Vector2(36.5, 48.5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_33qeg"]
 size = Vector2(45, 60)
 
-[node name="Wizard" type="CharacterBody2D" groups=["Player"]]
+[node name="Wizard" type="CharacterBody2D" node_paths=PackedStringArray("HealthComponent", "HurtBoxComponent") groups=["Player"]]
 collision_layer = 2
 collision_mask = 5
 platform_floor_layers = 4294967040
 script = ExtResource("1_tsg4p")
 Projectile = ExtResource("2_61wsk")
+HealthComponent = NodePath("HealthComponent")
+HurtBoxComponent = NodePath("HurtBoxComponent")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -3.0000038)
@@ -57,3 +60,25 @@ drag_left_margin = 0.5
 drag_top_margin = 0.5
 drag_right_margin = 0.5
 drag_bottom_margin = 0.5
+
+[node name="PlayerHud" type="Control" parent="Camera2D" node_paths=PackedStringArray("_player")]
+z_index = 4096
+z_as_relative = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 543.0
+offset_top = -405.0
+offset_right = 679.0
+offset_bottom = -256.0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+script = ExtResource("7_33qeg")
+_player = NodePath("../..")
+
+[node name="GoldLabel" type="Label" parent="Camera2D/PlayerHud"]
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "test"

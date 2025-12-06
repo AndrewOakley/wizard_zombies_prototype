@@ -1,3 +1,4 @@
+using System;
 using Game.Component;
 using Godot;
 
@@ -10,18 +11,20 @@ public abstract partial class CombatantCharacter : CharacterBody2D {
     protected HurtBoxComponent HurtBoxComponent;
 
     public override void _Ready() {
-        HealthComponent ??= GetNodeOrNull<HealthComponent>("HealthComponent");
-        HurtBoxComponent ??= GetNodeOrNull<HurtBoxComponent>("HurtBoxComponent");
+        HealthComponent = GetNodeOrNull<HealthComponent>("HealthComponent");
+        HurtBoxComponent = GetNodeOrNull<HurtBoxComponent>("HurtBoxComponent");
         
-        if (HealthComponent != null) {
-            HealthComponent.Died += OnDeath;
-            HealthComponent.HealthChanged += OnHealthChanged;
+        if (HealthComponent == null) {
+            throw new NotImplementedException("HealthComponent is null");
         }
+        HealthComponent.Died += OnDeath;
+        HealthComponent.HealthChanged += OnHealthChanged;
         
-        if (HurtBoxComponent != null) {
-            HurtBoxComponent.AreaEntered += OnHurtBoxAreaEntered;
-            HurtBoxComponent.BodyEntered += OnHurtBoxBodyEntered;
+        if (HurtBoxComponent == null) {
+            throw new NotImplementedException("HurtBoxComponent is null");
         }
+        HurtBoxComponent.AreaEntered += OnHurtBoxAreaEntered;
+        HurtBoxComponent.BodyEntered += OnHurtBoxBodyEntered;
     }
 
     public override void _ExitTree() {
@@ -44,7 +47,7 @@ public abstract partial class CombatantCharacter : CharacterBody2D {
     /// </summary>
     protected virtual void OnDeath() {
         GD.Print($"{Name} has died!");
-        QueueFree();
+        CallDeferred(Node.MethodName.QueueFree);
     }
 
     /// <summary>

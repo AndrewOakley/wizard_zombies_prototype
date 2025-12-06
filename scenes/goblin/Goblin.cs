@@ -6,8 +6,8 @@ public partial class Goblin : CombatantCharacter {
 	private Godot.Collections.Array<Wizard> _wizards;
 
     public override void _Ready() {
-		base._Ready();
-
+	    base._Ready();
+	    
 		var nodes = GetTree().GetNodesInGroup("Player");
 		_wizards = [];
 		foreach (var node in nodes) {

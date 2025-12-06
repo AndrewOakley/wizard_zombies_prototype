@@ -3,6 +3,8 @@ using Godot;
 using Constants = Game.Contstants.Constants;
 
 public partial class Wizard : CombatantCharacter {
+    [Signal] public delegate void GoldChangedEventHandler(int newGoldAmount);
+    
     [Export] public float Speed = 200.0f;
     [Export] public float SprintSpeed = 350.0f;
     [Export] public PackedScene Projectile;
@@ -12,12 +14,21 @@ public partial class Wizard : CombatantCharacter {
     private Sprite2D _sprite2D;
     private Marker2D _projectileSrc;
     private Polygon2D _wand;
-    
+
+    public int Gold {
+        get => _gold;
+        set {
+            _gold = value;
+            EmitSignal(SignalName.GoldChanged, _gold);
+        }
+    }
+
     private bool _isDodging = false;
     private uint _savedCollisionLayer;
     private uint _savedCollisionMask;
     private Vector2 _dodgeVelocity;
     private float _dodgeTimer;
+    private int _gold;
 
     public override void _Ready() {
         base._Ready();
@@ -72,14 +83,20 @@ public partial class Wizard : CombatantCharacter {
         if (!Input.IsActionJustPressed("move_fire") || Input.IsActionPressed("move_sprint"))
             return;
 
-        var projectile = Projectile.Instantiate<CharacterBody2D>();
-        projectile.GlobalPosition = _projectileSrc.GlobalPosition;
-        projectile.Rotation = _wand.Rotation;
+        var projectile = Projectile.Instantiate<Projectile>();
+        projectile.Initialize(_projectileSrc.GlobalPosition, _wand.Rotation, this);
+        projectile.HitArea += OnProjectileHit;
         GetTree().Root.AddChild(projectile);
     }
     
-    private void DodgeRoll(Vector2 direction)
-    {
+    private void OnProjectileHit(Area2D area2D) {
+        var isEnemy = (area2D.CollisionLayer & (uint)Constants.CollisionLayer.Enemy) != 0;
+        if (isEnemy) {
+            Gold += 10;
+        }
+    } 
+    
+    private void DodgeRoll(Vector2 direction) {
         var norm = direction.Normalized();
         if (norm == Vector2.Zero)
             norm = Vector2.Right;
