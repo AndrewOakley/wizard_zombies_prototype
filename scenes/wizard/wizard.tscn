@@ -33,6 +33,7 @@ texture = ExtResource("2_l5jqd")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-6, 3)
 shape = SubResource("RectangleShape2D_i2aia")
+debug_color = Color(0, 0.6433385, 0.3074419, 0.41960785)
 
 [node name="TestProgressBar" parent="." node_paths=PackedStringArray("_healthComponent") instance=ExtResource("4_i2aia")]
 _healthComponent = NodePath("../HealthComponent")
@@ -58,6 +59,7 @@ _healthComponent = NodePath("../HealthComponent")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxComponent"]
 position = Vector2(-4, 2)
 shape = SubResource("RectangleShape2D_33qeg")
+debug_color = Color(0.9979641, 0.04132483, 0, 0.41960785)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(0.75, 0.75)

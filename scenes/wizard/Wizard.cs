@@ -10,8 +10,8 @@ public partial class Wizard : CombatantCharacter {
     [ExportGroup("Stats")]
     [Export] public float Speed = 200.0f;
     [Export] public float SprintSpeed = 350.0f;
-    [Export] public float RollDistance { get; set; } = 300f;
-    [Export] public float RollDuration { get; set; } = 0.4f;
+    [Export] public float RollDistance { get; set; } = 200f;
+    [Export] public float RollDuration { get; set; } = 0.3f;
     [Export] private PackedScene _projectileScene; // Temp: this will be in the specific spell eventually
     
     private Sprite2D _sprite2D;

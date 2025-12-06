@@ -27,6 +27,7 @@ texture = ExtResource("1_g6qpl")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-2, -0.75)
 shape = SubResource("RectangleShape2D_oj0np")
+debug_color = Color(0.0072509698, 0.6515275, 0, 0.41960785)
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_86s1n")]
 
@@ -38,6 +39,7 @@ _healthComponent = NodePath("../HealthComponent")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxComponent"]
 position = Vector2(-2, -0.75)
 shape = SubResource("RectangleShape2D_ccau4")
+debug_color = Color(0.99157184, 0, 0.26985714, 0.41960785)
 
 [node name="TestProgressBar" parent="." node_paths=PackedStringArray("_healthComponent") instance=ExtResource("5_etdoi")]
 _healthComponent = NodePath("../HealthComponent")
