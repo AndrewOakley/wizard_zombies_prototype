@@ -1,10 +1,122 @@
-[gd_scene load_steps=8 format=3 uid="uid://dab2rdcww73ef"]
+[gd_scene load_steps=16 format=3 uid="uid://dab2rdcww73ef"]
 
 [ext_resource type="Texture2D" uid="uid://bvabmvcnew5r" path="res://assets/sprites/goblin.png" id="1_g6qpl"]
 [ext_resource type="Script" uid="uid://cuut6vs2r8tdp" path="res://scenes/goblin/Goblin.cs" id="1_oj0np"]
 [ext_resource type="PackedScene" uid="uid://b5v1pdp1doymn" path="res://scripts/components/health_component.tscn" id="3_86s1n"]
 [ext_resource type="PackedScene" uid="uid://58ntqbn7roq0" path="res://scripts/components/hurt_box_component.tscn" id="4_ccau4"]
 [ext_resource type="PackedScene" uid="uid://wwibkqlore3p" path="res://scenes/test/test_progress_bar/test_progress_bar.tscn" id="5_etdoi"]
+[ext_resource type="Script" uid="uid://cj3fpcmhb5nt1" path="res://scripts/StateMachine.cs" id="6_jg0it"]
+[ext_resource type="Script" uid="uid://d2hot4tw7d6" path="res://scenes/goblin/states/Follow.cs" id="7_f7xj6"]
+[ext_resource type="Script" uid="uid://dbrc8m228oy02" path="res://scenes/goblin/states/Attack.cs" id="8_3srhr"]
+[ext_resource type="Script" uid="uid://d1u7wyssl7edf" path="res://scripts/components/HitBoxComponent.cs" id="9_xcuwq"]
+
+[sub_resource type="Animation" id="Animation_3srhr"]
+resource_name = "attack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Polygon2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.36, 0.56, 0.7, 0.86),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-46.999996, -55), Vector2(-46.999996, -55), Vector2(56.000004, 0.9999981), Vector2(25.000004, 30.000002)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Polygon2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.36, 0.56, 0.7, 0.86),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -1.9309047, -1.9309047, 0.04104805, 0.67548746]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Polygon2D:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Polygon2D/HitBoxComponent:monitorable")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.56, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_xcuwq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Polygon2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Polygon2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Polygon2D:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Polygon2D/HitBoxComponent:monitorable")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i1i07"]
+_data = {
+&"RESET": SubResource("Animation_xcuwq"),
+&"attack": SubResource("Animation_3srhr")
+}
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oj0np"]
 size = Vector2(44, 76.5)
@@ -12,12 +124,20 @@ size = Vector2(44, 76.5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ccau4"]
 size = Vector2(48, 80.5)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3srhr"]
+size = Vector2(52, 13)
+
 [node name="Goblin" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 5
 platform_on_leave = 2
 platform_floor_layers = 4294967040
 script = ExtResource("1_oj0np")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_i1i07")
+}
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-1.9999924, -0.99998474)
@@ -42,4 +162,35 @@ shape = SubResource("RectangleShape2D_ccau4")
 debug_color = Color(0.99157184, 0, 0.26985714, 0.41960785)
 
 [node name="TestProgressBar" parent="." node_paths=PackedStringArray("_healthComponent") instance=ExtResource("5_etdoi")]
+visible = false
 _healthComponent = NodePath("../HealthComponent")
+
+[node name="FSM" type="Node" parent="." node_paths=PackedStringArray("InitialState")]
+script = ExtResource("6_jg0it")
+InitialState = NodePath("Follow")
+
+[node name="Follow" type="Node" parent="FSM" node_paths=PackedStringArray("_goblin", "StateMachine")]
+script = ExtResource("7_f7xj6")
+_goblin = NodePath("../..")
+StateMachine = NodePath("..")
+
+[node name="Attack" type="Node" parent="FSM" node_paths=PackedStringArray("_goblin", "StateMachine")]
+script = ExtResource("8_3srhr")
+_goblin = NodePath("../..")
+StateMachine = NodePath("..")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+visible = false
+color = Color(0.6230223, 0.4570819, 0.14705753, 1)
+polygon = PackedVector2Array(-42, 16, -27, 15, -19, 15, -15, 13, -2, 14, 5, 15, 10, 13, 14, 15, 28, 14, 28, 19, 31, 24, 30, 30, 26, 32, 10, 28, 8, 27, 5, 28, 1, 28, -22, 26, -27, 23, -32, 24, -42, 24, -43, 21, -42, 18)
+
+[node name="HitBoxComponent" type="Area2D" parent="Polygon2D"]
+collision_layer = 16
+collision_mask = 0
+monitorable = false
+script = ExtResource("9_xcuwq")
+Damage = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Polygon2D/HitBoxComponent"]
+position = Vector2(1, 22.5)
+shape = SubResource("RectangleShape2D_3srhr")

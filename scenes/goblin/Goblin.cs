@@ -1,13 +1,21 @@
+using System;
 using Game.Abstracts;
 using Godot;
+using Godot.Collections;
 
 public partial class Goblin : CombatantCharacter {
-	private const float Speed = 200.0f;
-	private Godot.Collections.Array<Wizard> _wizards;
+	public AnimationPlayer AnimationPlayer;
+	
+	public float Speed = 200.0f;
+	public const float AttackRange = 90.0f;
+	public enum Animations { attack }
 
-    public override void _Ready() {
-	    base._Ready();
-	    
+	private Array<Wizard> _wizards;
+
+	public override void _Ready() {
+	    base._Ready(); // Do not remove this lol
+		
+		AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		var nodes = GetTree().GetNodesInGroup("Player");
 		_wizards = [];
 		foreach (var node in nodes) {
@@ -18,19 +26,11 @@ public partial class Goblin : CombatantCharacter {
 	}
 
 	public override void _PhysicsProcess(double delta) {
-		var nearestWizard = FindNearestWizard();
-		
-		if (nearestWizard != null) {
-			var direction = (nearestWizard.GlobalPosition - GlobalPosition).Normalized();
-			Velocity = direction * Speed;
-		} else {
-			Velocity = Vector2.Zero;
-		}
-
 		MoveAndSlide();
 	}
-
-	private Wizard FindNearestWizard() {
+	
+	// TODO: Move this to a utility class if needed elsewhere
+	public Wizard FindNearestWizard() {
 		if (_wizards == null || _wizards.Count == 0) {
 			return null;
 		}

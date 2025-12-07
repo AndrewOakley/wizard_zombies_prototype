@@ -6,10 +6,8 @@ namespace Game.Abstracts;
 
 public abstract partial class CombatantCharacter : CharacterBody2D {
     [ExportGroup("Components")]
-    [Export]
-    protected HealthComponent HealthComponent;
-    [Export]
-    protected HurtBoxComponent HurtBoxComponent;
+    [Export] protected HealthComponent HealthComponent;
+    [Export] protected HurtBoxComponent HurtBoxComponent;
 
     public override void _Ready() {
         HealthComponent = GetNodeOrNull<HealthComponent>("HealthComponent");
