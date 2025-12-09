@@ -9,6 +9,9 @@ public partial class Goblin : CombatantCharacter {
 	public float Speed = 200.0f;
 	public const float AttackRange = 90.0f;
 	public enum Animations { attack }
+	// sync positions for MultiplayerSynchronizer
+	[Export] private Vector2 _syncPos = Vector2.Zero;
+	[Export] private float _syncRot = 0f;
 
 	private Array<Wizard> _wizards;
 
@@ -23,10 +26,19 @@ public partial class Goblin : CombatantCharacter {
 				_wizards.Add(wizard);
 			}
 		}
+		
+		_syncPos = GlobalPosition;
 	}
 
 	public override void _PhysicsProcess(double delta) {
-		MoveAndSlide();
+		if (Multiplayer.IsServer()) {
+			MoveAndSlide();
+			_syncPos = GlobalPosition;
+			_syncRot = Rotation;
+		} else {
+			GlobalPosition = GlobalPosition.Lerp(_syncPos, 0.1f);
+			Rotation = _syncRot;
+		}
 	}
 	
 	// TODO: Move this to a utility class if needed elsewhere

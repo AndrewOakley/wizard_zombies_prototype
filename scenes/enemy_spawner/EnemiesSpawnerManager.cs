@@ -1,9 +1,10 @@
 using Godot;
-using System;
 using System.Threading.Tasks;
 using Godot.Collections;
 
 public partial class EnemiesSpawnerManager : Node {
+    [Export] private bool _active = true;
+    
     private Array<EnemySpawner> _enemySpawners = [];
 
     public override void _Ready() {
@@ -14,13 +15,16 @@ public partial class EnemiesSpawnerManager : Node {
             _enemySpawners.Add(spawner);
         }
 
-        SpawnEnemy();
+        if (!_active || !Multiplayer.IsServer()) return;
+        
+        // Only spawn enemies on server and MultiplayerSpawner will handle the node
+        _ = SpawnEnemy();
     }
     
     private async Task SpawnEnemy() {
         while (true) {
-            await _enemySpawners.PickRandom().SpawnEnemy();
             await ToSignal(GetTree().CreateTimer(5f), SceneTreeTimer.SignalName.Timeout);
+            _enemySpawners.PickRandom().SpawnEnemy();
         }
     }
 }

@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://by1aaq7500u0y"]
+[gd_scene load_steps=6 format=3 uid="uid://by1aaq7500u0y"]
 
 [ext_resource type="PackedScene" uid="uid://dr8fvj5gy5irs" path="res://scenes/wizard/wizard.tscn" id="1_2t2t3"]
+[ext_resource type="Script" uid="uid://b26oi1xdkhapi" path="res://scenes/test/SceneManager.cs" id="1_4xk5c"]
 [ext_resource type="PackedScene" uid="uid://d33fmma3wj2qe" path="res://scenes/enemy_spawner/enemy_spawner.tscn" id="2_4ix5f"]
 [ext_resource type="Script" uid="uid://b1l5f886uwmcy" path="res://scenes/enemy_spawner/EnemiesSpawnerManager.cs" id="2_8ba03"]
 
@@ -8,28 +9,29 @@
 size = Vector2(139, 1161)
 
 [node name="TestMap" type="Node2D"]
+script = ExtResource("1_4xk5c")
+_playerScene = ExtResource("1_2t2t3")
 
 [node name="Players" type="Node" parent="."]
-
-[node name="Wizard" parent="Players" instance=ExtResource("1_2t2t3")]
-position = Vector2(142, 159)
-
-[node name="Node" type="Node" parent="Players"]
 
 [node name="EnemiesSpawnerManager" type="Node" parent="."]
 script = ExtResource("2_8ba03")
 
-[node name="EnemySpawner" parent="EnemiesSpawnerManager" instance=ExtResource("2_4ix5f")]
+[node name="EnemySpawner" parent="EnemiesSpawnerManager" node_paths=PackedStringArray("SpawnPath") instance=ExtResource("2_4ix5f")]
 position = Vector2(-355, -80)
+SpawnPath = NodePath("..")
 
-[node name="EnemySpawner2" parent="EnemiesSpawnerManager" instance=ExtResource("2_4ix5f")]
+[node name="EnemySpawner2" parent="EnemiesSpawnerManager" node_paths=PackedStringArray("SpawnPath") instance=ExtResource("2_4ix5f")]
 position = Vector2(-348, 414)
+SpawnPath = NodePath("..")
 
-[node name="EnemySpawner3" parent="EnemiesSpawnerManager" instance=ExtResource("2_4ix5f")]
+[node name="EnemySpawner3" parent="EnemiesSpawnerManager" node_paths=PackedStringArray("SpawnPath") instance=ExtResource("2_4ix5f")]
 position = Vector2(653, 410)
+SpawnPath = NodePath("..")
 
-[node name="EnemySpawner4" parent="EnemiesSpawnerManager" instance=ExtResource("2_4ix5f")]
+[node name="EnemySpawner4" parent="EnemiesSpawnerManager" node_paths=PackedStringArray("SpawnPath") instance=ExtResource("2_4ix5f")]
 position = Vector2(643, -77)
+SpawnPath = NodePath("..")
 
 [node name="Node" type="Node" parent="."]
 
@@ -86,3 +88,15 @@ polygon = PackedVector2Array(-354, 2, -352, 145, -354.07947, 446.50375, -210, 44
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node/StaticBody2D4"]
 position = Vector2(-279.5, -134.5)
 shape = SubResource("RectangleShape2D_4ix5f")
+
+[node name="Spawns" type="Node" parent="."]
+
+[node name="0" type="Marker2D" parent="Spawns" groups=["PlayerSpawnPoints"]]
+position = Vector2(-96, 311)
+
+[node name="1" type="Marker2D" parent="Spawns" groups=["PlayerSpawnPoints"]]
+position = Vector2(293, 307)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(135, 158)
+zoom = Vector2(0.75, 0.75)

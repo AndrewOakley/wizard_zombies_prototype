@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dab2rdcww73ef"]
+[gd_scene load_steps=17 format=3 uid="uid://dab2rdcww73ef"]
 
 [ext_resource type="Texture2D" uid="uid://bvabmvcnew5r" path="res://assets/sprites/goblin.png" id="1_g6qpl"]
 [ext_resource type="Script" uid="uid://cuut6vs2r8tdp" path="res://scenes/goblin/Goblin.cs" id="1_oj0np"]
@@ -127,6 +127,14 @@ size = Vector2(48, 80.5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3srhr"]
 size = Vector2(52, 13)
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_xcuwq"]
+properties/0/path = NodePath(".:_syncPos")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:_syncRot")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
 [node name="Goblin" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 5
@@ -194,3 +202,6 @@ Damage = 1
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Polygon2D/HitBoxComponent"]
 position = Vector2(1, 22.5)
 shape = SubResource("RectangleShape2D_3srhr")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_xcuwq")

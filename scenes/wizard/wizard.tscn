@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dr8fvj5gy5irs"]
+[gd_scene load_steps=12 format=3 uid="uid://dr8fvj5gy5irs"]
 
 [ext_resource type="Script" uid="uid://0rnmxxc277jm" path="res://scenes/wizard/Wizard.cs" id="1_tsg4p"]
 [ext_resource type="PackedScene" uid="uid://daghlfm2eo2pa" path="res://scenes/projectiles/test_projectiles/test_projectile.tscn" id="2_61wsk"]
@@ -15,9 +15,17 @@ size = Vector2(36.5, 48.5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_33qeg"]
 size = Vector2(45, 60)
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_4jdye"]
+properties/0/path = NodePath(".:_syncPos")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Wand:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
 [node name="Wizard" type="CharacterBody2D" node_paths=PackedStringArray("CurrencyComponent", "HealthComponent", "HurtBoxComponent") groups=["Player"]]
 collision_layer = 2
-collision_mask = 5
+collision_mask = 7
 platform_floor_layers = 4294967040
 script = ExtResource("1_tsg4p")
 CurrencyComponent = NodePath("CurrencyComponent")
@@ -69,6 +77,7 @@ drag_right_margin = 0.5
 drag_bottom_margin = 0.5
 
 [node name="PlayerHud" type="Control" parent="Camera2D" node_paths=PackedStringArray("_player")]
+visible = false
 z_index = 4096
 z_as_relative = false
 layout_mode = 3
@@ -89,3 +98,6 @@ offset_bottom = 23.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
 text = "test"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_4jdye")

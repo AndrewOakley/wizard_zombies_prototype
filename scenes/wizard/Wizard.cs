@@ -17,12 +17,14 @@ public partial class Wizard : CombatantCharacter {
     private Sprite2D _sprite2D;
     private Marker2D _projectileSrc;
     private Polygon2D _wand;
+    private MultiplayerSynchronizer _multiplayerSynchronizer;
 
     private bool _isDodging = false;
     private uint _savedCollisionLayer;
     private uint _savedCollisionMask;
     private Vector2 _dodgeVelocity;
     private float _dodgeTimer;
+    [Export] private Vector2 _syncPos = new Vector2(0,0);
 
     public override void _Ready() {
         base._Ready();
@@ -34,10 +36,18 @@ public partial class Wizard : CombatantCharacter {
         // Save initial collision layers to easily change them back
         _savedCollisionLayer = CollisionLayer;
         _savedCollisionMask = CollisionMask;
+        
+        _multiplayerSynchronizer = GetNode<MultiplayerSynchronizer>("MultiplayerSynchronizer");
+        _multiplayerSynchronizer.SetMultiplayerAuthority(int.Parse(Name));
     }
 
     public override void _PhysicsProcess(double delta) {
-        PlayerMovement(delta);
+        if (_multiplayerSynchronizer.GetMultiplayerAuthority() == Multiplayer.GetUniqueId()) {
+            PlayerMovement(delta);
+            _syncPos = GlobalPosition;
+        } else{
+            GlobalPosition = GlobalPosition.Lerp(_syncPos, .1f);
+        }
     }
 
     private void PlayerMovement(double delta) {
@@ -65,7 +75,9 @@ public partial class Wizard : CombatantCharacter {
             var velocity = direction != Vector2.Zero ? direction * currentSpeed : Vector2.Zero;
             Velocity = velocity;
             MoveAndSlide();
-            PlayerShoot();
+            
+            if (Input.IsActionJustPressed("move_fire") && !Input.IsActionPressed("move_sprint"))
+                Rpc(nameof(PlayerShoot));
         }
 
         // Look at mouse
@@ -73,10 +85,8 @@ public partial class Wizard : CombatantCharacter {
         _wand.LookAt(mousePos);
     }
 
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
     private void PlayerShoot() {
-        if (!Input.IsActionJustPressed("move_fire") || Input.IsActionPressed("move_sprint"))
-            return;
-
         var projectile = _projectileScene.Instantiate<Projectile>();
         projectile.Initialize(_projectileSrc.GlobalPosition, _wand.Rotation, this);
         projectile.HitArea += OnProjectileHit;

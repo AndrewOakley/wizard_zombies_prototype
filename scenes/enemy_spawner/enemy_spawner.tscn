@@ -54,3 +54,7 @@ position = Vector2(0, 34)
 libraries = {
 &"": SubResource("AnimationLibrary_33mpf")
 }
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://dab2rdcww73ef")
+spawn_path = NodePath("..")

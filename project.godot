@@ -11,13 +11,25 @@ config_version=5
 [application]
 
 config/name="wizard_zombies_prototype"
-run/main_scene="uid://by1aaq7500u0y"
+run/main_scene="uid://csl3swagpfb1x"
 config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+GameManager="*res://scenes/test/multiplayer/GameManager.cs"
+
+[display]
+
+window/size/initial_position_type=3
 
 [dotnet]
 
 project/assembly_name="New Game Project"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/console/plugin.cfg")
 
 [input]
 
