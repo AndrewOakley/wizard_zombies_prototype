@@ -33,6 +33,11 @@ public partial class HealthComponent : Node2D {
     private int _currentHealth = 10;
 
     public void Damage(int amount) {
+        Rpc(nameof(RpcDamage), amount);
+    }
+    
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+    private void RpcDamage(int amount) {
         CurrentHealth -= amount;
     }
 }

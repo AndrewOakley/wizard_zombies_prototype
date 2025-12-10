@@ -14,24 +14,25 @@ _playerScene = ExtResource("1_2t2t3")
 
 [node name="Players" type="Node" parent="."]
 
-[node name="EnemiesSpawnerManager" type="Node" parent="."]
+[node name="EnemiesSpawnerManager" type="Node" parent="." node_paths=PackedStringArray("_multiplayerSpawner")]
 script = ExtResource("2_8ba03")
+_multiplayerSpawner = NodePath("MultiplayerSpawner")
 
-[node name="EnemySpawner" parent="EnemiesSpawnerManager" node_paths=PackedStringArray("SpawnPath") instance=ExtResource("2_4ix5f")]
+[node name="EnemySpawner" parent="EnemiesSpawnerManager" instance=ExtResource("2_4ix5f")]
 position = Vector2(-355, -80)
-SpawnPath = NodePath("..")
 
-[node name="EnemySpawner2" parent="EnemiesSpawnerManager" node_paths=PackedStringArray("SpawnPath") instance=ExtResource("2_4ix5f")]
+[node name="EnemySpawner2" parent="EnemiesSpawnerManager" instance=ExtResource("2_4ix5f")]
 position = Vector2(-348, 414)
-SpawnPath = NodePath("..")
 
-[node name="EnemySpawner3" parent="EnemiesSpawnerManager" node_paths=PackedStringArray("SpawnPath") instance=ExtResource("2_4ix5f")]
+[node name="EnemySpawner3" parent="EnemiesSpawnerManager" instance=ExtResource("2_4ix5f")]
 position = Vector2(653, 410)
-SpawnPath = NodePath("..")
 
-[node name="EnemySpawner4" parent="EnemiesSpawnerManager" node_paths=PackedStringArray("SpawnPath") instance=ExtResource("2_4ix5f")]
+[node name="EnemySpawner4" parent="EnemiesSpawnerManager" instance=ExtResource("2_4ix5f")]
 position = Vector2(643, -77)
-SpawnPath = NodePath("..")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="EnemiesSpawnerManager"]
+_spawnable_scenes = PackedStringArray("uid://dab2rdcww73ef")
+spawn_path = NodePath("..")
 
 [node name="Node" type="Node" parent="."]
 

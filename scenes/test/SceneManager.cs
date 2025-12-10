@@ -7,6 +7,8 @@ public partial class SceneManager : Node2D {
     public override void _Ready() {
         var index = 0;
         foreach (var player in GameManager.Players) {
+            if (player.Name == "skip") continue;
+            
             var currentPlayer = _playerScene.Instantiate<Wizard>();
             currentPlayer.Name = player.Id.ToString();
             AddChild(currentPlayer);

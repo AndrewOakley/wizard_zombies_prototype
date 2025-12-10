@@ -83,6 +83,11 @@ public partial class MultiplayerController : Node2D {
 		SendPlayerInformation(GetNode<LineEdit>("LineEdit").Text, 1);
 	}
 	
+	public void _on_host_headless_button_down(){
+		HostGame();
+		SendPlayerInformation("skip", 1);
+	}
+	
 	public void _on_join_button_down(){
 		_peer = new ENetMultiplayerPeer();
 		_peer.CreateClient(_address, _port);

@@ -12,6 +12,9 @@ public partial class HurtBoxComponent : Area2D {
     }
 
     private void OnAreaEntered(Area2D area) {
+        // Only the server should handle damage application
+        if (!Multiplayer.IsServer()) return;
+        
         if (area is HitBoxComponent hitBoxComponent) {
             _healthComponent.Damage(hitBoxComponent.Damage);
         }

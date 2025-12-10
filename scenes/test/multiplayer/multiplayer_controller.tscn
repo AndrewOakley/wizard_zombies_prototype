@@ -32,6 +32,14 @@ offset_top = 262.0
 offset_right = 525.0
 offset_bottom = 293.0
 
+[node name="HostHeadless" type="Button" parent="."]
+offset_left = 85.0
+offset_top = 100.0
+offset_right = 203.0
+offset_bottom = 131.0
+text = "Host Headless"
+
 [connection signal="button_down" from="Host" to="." method="_on_host_button_down"]
 [connection signal="button_down" from="Join" to="." method="_on_join_button_down"]
 [connection signal="button_down" from="StartGame" to="." method="_on_start_game_button_down"]
+[connection signal="button_down" from="HostHeadless" to="." method="_on_host_headless_button_down"]

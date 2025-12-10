@@ -5,6 +5,7 @@ using Godot.Collections;
 
 public partial class Goblin : CombatantCharacter {
 	public AnimationPlayer AnimationPlayer;
+	private MultiplayerSynchronizer _synchronizer;
 	
 	public float Speed = 200.0f;
 	public const float AttackRange = 90.0f;
@@ -14,11 +15,12 @@ public partial class Goblin : CombatantCharacter {
 	[Export] private float _syncRot = 0f;
 
 	private Array<Wizard> _wizards;
-
+	
 	public override void _Ready() {
 	    base._Ready(); // Do not remove this lol
 		
 		AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+		_synchronizer = GetNode<MultiplayerSynchronizer>("MultiplayerSynchronizer");
 		var nodes = GetTree().GetNodesInGroup("Player");
 		_wizards = [];
 		foreach (var node in nodes) {
@@ -28,17 +30,21 @@ public partial class Goblin : CombatantCharacter {
 		}
 		
 		_syncPos = GlobalPosition;
+		_synchronizer.Synchronized += Synchronize;
 	}
 
 	public override void _PhysicsProcess(double delta) {
 		if (Multiplayer.IsServer()) {
-			MoveAndSlide();
 			_syncPos = GlobalPosition;
 			_syncRot = Rotation;
-		} else {
-			GlobalPosition = GlobalPosition.Lerp(_syncPos, 0.1f);
-			Rotation = _syncRot;
 		}
+		
+		MoveAndSlide();
+	}
+	
+	public void Synchronize() {
+		GlobalPosition = GlobalPosition.Lerp(_syncPos, 0.1f);
+		Rotation = Mathf.LerpAngle(Rotation, _syncRot, 0.1f);
 	}
 	
 	// TODO: Move this to a utility class if needed elsewhere

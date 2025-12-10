@@ -35,6 +35,11 @@ public partial class StateMachine : Node {
     }
     
     public void ChangeState(string stateName) {
+        Rpc(nameof(RpcChangeState), stateName);
+    }
+    
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+    private void RpcChangeState(string stateName) {
         if (!_states.TryGetValue(stateName, out var value)) {
             GD.PrintErr($"State '{stateName}' not found in StateMachine.");
             return;
