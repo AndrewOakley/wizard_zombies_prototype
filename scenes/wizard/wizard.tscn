@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dr8fvj5gy5irs"]
+[gd_scene load_steps=13 format=3 uid="uid://dr8fvj5gy5irs"]
 
 [ext_resource type="Script" uid="uid://0rnmxxc277jm" path="res://scenes/wizard/Wizard.cs" id="1_tsg4p"]
 [ext_resource type="PackedScene" uid="uid://daghlfm2eo2pa" path="res://scenes/projectiles/test_projectiles/test_projectile.tscn" id="2_61wsk"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://ctvuafwuqo2tn" path="res://scripts/components/CurrencyComponent.cs" id="5_33qeg"]
 [ext_resource type="PackedScene" uid="uid://58ntqbn7roq0" path="res://scripts/components/hurt_box_component.tscn" id="6_i2aia"]
 [ext_resource type="Script" uid="uid://ct3tk4nupra7f" path="res://scenes/UI/player_hud/PlayerHud.cs" id="7_33qeg"]
+[ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="9_gdp11"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i2aia"]
 size = Vector2(36.5, 48.5)
@@ -22,6 +23,9 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath("Wand:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
+properties/2/path = NodePath(".:_syncVelocity")
+properties/2/spawn = true
+properties/2/replication_mode = 1
 
 [node name="Wizard" type="CharacterBody2D" node_paths=PackedStringArray("CurrencyComponent", "HealthComponent", "HurtBoxComponent") groups=["Player"]]
 collision_layer = 2
@@ -65,7 +69,7 @@ collision_mask = 20
 _healthComponent = NodePath("../HealthComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxComponent"]
-position = Vector2(-4, 2)
+position = Vector2(-5, 8)
 shape = SubResource("RectangleShape2D_33qeg")
 debug_color = Color(0.9979641, 0.04132483, 0, 0.41960785)
 
@@ -100,5 +104,8 @@ theme_override_font_sizes/font_size = 30
 text = "test"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_interval = 0.07
 replication_config = SubResource("SceneReplicationConfig_4jdye")
+
+[node name="Predictor" type="Sprite2D" parent="."]
+scale = Vector2(0.19921872, 0.19921872)
+texture = ExtResource("9_gdp11")

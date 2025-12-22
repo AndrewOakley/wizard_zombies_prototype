@@ -13,18 +13,21 @@ public partial class Wizard : CombatantCharacter {
     [Export] public float RollDistance { get; set; } = 200f;
     [Export] public float RollDuration { get; set; } = 0.3f;
     [Export] private PackedScene _projectileScene; // Temp: this will be in the specific spell eventually
-    
+
     private Sprite2D _sprite2D;
     private Marker2D _projectileSrc;
     private Polygon2D _wand;
     private MultiplayerSynchronizer _multiplayerSynchronizer;
+    private Sprite2D _predictor;
+    private CollisionShape2D _collisionShape2D;
 
     private bool _isDodging = false;
     private uint _savedCollisionLayer;
     private uint _savedCollisionMask;
     private Vector2 _dodgeVelocity;
     private float _dodgeTimer;
-    [Export] private Vector2 _syncPos = new Vector2(0,0);
+    [Export] private Vector2 _syncPos = new Vector2(0,0); // exported for multiplayer synchronizer
+    [Export] private Vector2 _syncVelocity = new Vector2(0,0);
 
     public override void _Ready() {
         base._Ready();
@@ -32,6 +35,8 @@ public partial class Wizard : CombatantCharacter {
         _sprite2D = GetNode<Sprite2D>("Sprite2D");
         _projectileSrc = GetNode<Marker2D>("%ProjectileSrc");
         _wand = GetNode<Polygon2D>("Wand");
+        _predictor = GetNode<Sprite2D>("Predictor");
+        _collisionShape2D = GetNode<CollisionShape2D>("CollisionShape2D");
         
         // Save initial collision layers to easily change them back
         _savedCollisionLayer = CollisionLayer;
@@ -39,14 +44,28 @@ public partial class Wizard : CombatantCharacter {
         
         _multiplayerSynchronizer = GetNode<MultiplayerSynchronizer>("MultiplayerSynchronizer");
         _multiplayerSynchronizer.SetMultiplayerAuthority(int.Parse(Name));
-    }
 
+        if (_multiplayerSynchronizer.GetMultiplayerAuthority() == Multiplayer.GetUniqueId()) {
+            _predictor.Hide();
+        }
+    }
+    
     public override void _PhysicsProcess(double delta) {
         if (_multiplayerSynchronizer.GetMultiplayerAuthority() == Multiplayer.GetUniqueId()) {
             PlayerMovement(delta);
             _syncPos = GlobalPosition;
+            _syncVelocity = Velocity;
         } else{
-            GlobalPosition = GlobalPosition.Lerp(_syncPos, .1f);
+            _predictor.GlobalPosition = _syncPos;
+
+            // send a ping request to the server with a timestamp (use RpcId to call remote)
+            var authorityAverageRtt = GameManager.GetConnectionInformation(_multiplayerSynchronizer.GetMultiplayerAuthority()).AverageRttSeconds;
+            if (authorityAverageRtt < 0.1f) {
+                GlobalPosition = _syncPos;
+            } else {
+                var predictorGlobalPosition = _syncVelocity * (float)authorityAverageRtt + _syncPos;
+                GlobalPosition = GlobalPosition.Lerp(predictorGlobalPosition, 0.1f);  
+            }
         }
     }
 

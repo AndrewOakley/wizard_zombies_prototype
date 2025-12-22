@@ -12,13 +12,14 @@ public partial class Follow : State {
             _goblin.Velocity = Vector2.Zero;
             return;
         }
-		
-        var direction = (nearestWizard.GlobalPosition - _goblin.GlobalPosition).Normalized();
-        _goblin.LookAt(nearestWizard.GlobalPosition);
+        
+        var wizardPosition = nearestWizard.GlobalPosition;
+        var direction = (wizardPosition - _goblin.GlobalPosition).Normalized();
+        _goblin.LookAt(wizardPosition);
 
         // handle state change on server only
         if (Multiplayer.IsServer()) {
-            var distanceToWizard = _goblin.GlobalPosition.DistanceTo(nearestWizard.GlobalPosition);
+            var distanceToWizard = _goblin.GlobalPosition.DistanceTo(wizardPosition);
             if (distanceToWizard < Goblin.AttackRange) {
                 StateMachine.ChangeState(nameof(Attack));
                 return;

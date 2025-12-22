@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://by1aaq7500u0y"]
+[gd_scene load_steps=7 format=3 uid="uid://by1aaq7500u0y"]
 
 [ext_resource type="PackedScene" uid="uid://dr8fvj5gy5irs" path="res://scenes/wizard/wizard.tscn" id="1_2t2t3"]
 [ext_resource type="Script" uid="uid://b26oi1xdkhapi" path="res://scenes/test/SceneManager.cs" id="1_4xk5c"]
 [ext_resource type="PackedScene" uid="uid://d33fmma3wj2qe" path="res://scenes/enemy_spawner/enemy_spawner.tscn" id="2_4ix5f"]
 [ext_resource type="Script" uid="uid://b1l5f886uwmcy" path="res://scenes/enemy_spawner/EnemiesSpawnerManager.cs" id="2_8ba03"]
+[ext_resource type="Texture2D" uid="uid://tqnmdq2hqrjx" path="res://assets/sprites/grid.jpg" id="5_6vtm2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4ix5f"]
 size = Vector2(139, 1161)
@@ -101,3 +102,11 @@ position = Vector2(293, 307)
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(135, 158)
 zoom = Vector2(0.75, 0.75)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -611.0
+offset_top = -468.0
+offset_right = -244.0
+offset_bottom = -108.0
+scale = Vector2(4.5282545, 4.5282545)
+texture = ExtResource("5_6vtm2")

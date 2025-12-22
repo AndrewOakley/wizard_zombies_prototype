@@ -13,6 +13,7 @@ public partial class SceneManager : Node2D {
             currentPlayer.Name = player.Id.ToString();
             AddChild(currentPlayer);
             
+            // TODO: change this to use MultiplayerSpawner
             foreach (var node in GetTree().GetNodesInGroup("PlayerSpawnPoints")) {
                 if (node is not Marker2D spawnPoint) continue;
                 

@@ -10,12 +10,13 @@ public partial class Attack : State {
         
         var nearestWizard = _goblin.FindNearestWizard();
         if (nearestWizard == null) return;
+        var wizardPosition = nearestWizard.GlobalPosition;
 
         if (_goblin.AnimationPlayer.GetCurrentAnimation() == nameof(Goblin.Animations.attack)) {
             return;
         }
         
-        var distanceToWizard = _goblin.GlobalPosition.DistanceTo(nearestWizard.GlobalPosition);
+        var distanceToWizard = _goblin.GlobalPosition.DistanceTo(wizardPosition);
         if (distanceToWizard >= Goblin.AttackRange) {
             StateMachine.ChangeState(nameof(Follow));
             return;

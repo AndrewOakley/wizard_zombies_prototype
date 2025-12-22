@@ -116,7 +116,7 @@ public partial class MultiplayerController : Node2D {
 		};
 		
 		if (!GameManager.Players.Contains(playerInfo)){
-			GameManager.Players.Add(playerInfo);
+			GameManager.AddPlayer(playerInfo);
 		}
 
 		if (Multiplayer.IsServer()){
